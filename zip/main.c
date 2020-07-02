@@ -1,30 +1,23 @@
 #include "header.h"
 
 int main(int argc, char *argv[]) {
-    // 4 args
-    switch (argc) {
-        case 4:
-            if (!strcmp(argv[1], COMP_COMMAND)) {
-            int resultCode = compress(argv[2], argv[3]);
-            if (resultCode == ERROR_NO_FILE_FOUND) {
-                printf("Error code %d: missing files\n", resultCode);
-                return EXIT_FAILURE;
-        
-            } else if (resultCode == EXIT_SUCCESS) {
-                printf("File compressed successfuly\n");
-            }
+    int result = 0;
+    if (argc == 4) {
+        if (!strcmp(argv[1], COMP_COMMAND))
+            result = compress(argv[2], argv[3]);
+
+        else if (!strcmp(argv[1], DECOMP_COMMAND))
+            result = decompress(argv[2], argv[3]);
+
+    } else if (argc == 3) {
+        if (!strcmp(argv[1], SIZE_COMMAND)) {
+            result = filesize(argv[2]);
+            if (result != ERROR_NO_FILE_FOUND)
+                printf("File %s has %ld bytes\n", argv[2], result);
         }
-        break;
+    
+    } else result = ERROR_UNKNOWN_COMMAND;
 
-        case 3:
-            if (!strcmp(argv[1], SIZE_COMMAND))
-                printf("Size of %s is %ld bytes\n", argv[2], filesize(argv[2]));
-        break;
-
-        default:
-            printf("Wrong arguments!\n");
-            break;
-    }
-
+    throwErrorIfThereIs(result, argc, argv);
     return 0;
 }
