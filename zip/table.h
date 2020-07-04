@@ -5,7 +5,7 @@
 #include <string.h>
 #include "constants.h"
 
-int findWordInTable(char table[][WORD_SIZE], int tableLen, char *word) {
+int findWordInTable(char table[][WORD_SIZE], int tableLen, char word[]) {
     for (int i = 0; i < tableLen; i++) {
         if (!strcmp(table[i], word))
             return i;
@@ -13,7 +13,7 @@ int findWordInTable(char table[][WORD_SIZE], int tableLen, char *word) {
     return -1;
 }
 
-void addWordToTable(char table[][WORD_SIZE], int *tableLen, char *word) {
+void addWordToTable(char table[][WORD_SIZE], int *tableLen, char word[]) {
     strcpy(table[*tableLen], word);
     (*tableLen)++;
 }
@@ -23,6 +23,14 @@ void printTable(char table[][WORD_SIZE], int tableLen) {
     for (int i = 0; i < tableLen; i++) 
         printf("%s\n", table[i]);
     puts("\n");
+}
+
+int findWordInWordInTable(char table[][WORD_SIZE], int tableLen, char word[]) {
+    for (int i = 0; i < tableLen; i++) {
+        if (strstr(word, table[i]))
+            return i;
+    }
+    return -1;
 }
 
 #endif
